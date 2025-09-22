@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Based Timetable Generation System | Government of India</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23000080'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='white' font-size='50' font-weight='bold' font-family='Arial'%3EIN%3C/text%3E%3C/svg%3E">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <header class="gov-header">
+        <div class="header-content">
+            <div class="emblem"></div>
+            <div class="header-text">
+                <h1>AI-Based Timetable Generation System</h1>
+                <p class="subtitle">Ministry of Education | Government of India | Aligned with NEP 2020</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <div class="breadcrumb">
+                <a href="#">Home</a> > <span>Timetable Generation</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Student Data</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Field & Semester</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Course Planning</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">University Selection</div>
+                </div>
+                 <div class="step" data-step="5">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">Faculty Selection</div>
+                </div>
+                <div class="step" data-step="6">
+                    <div class="step-circle">6</div>
+                    <div class="step-label">Scheduling & Breaks</div>
+                </div>
+                <div class="step" data-step="7">
+                    <div class="step-circle">7</div>
+                    <div class="step-label">View Timetable</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="timetableForm">
+                <div class="form-step active" id="step1">
+                    <h2 class="step-title">📋 Student Information</h2>
+                    <div class="important-note">
+                        <strong>Important:</strong> All fields marked with <span class="required">*</span> are mandatory.
+                    </div>
+                    <div class="form-section">
+                        <div class="section-title">Academic Details</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name <span class="required">*</span></label>
+                                <input type="text" id="student-name" placeholder="e.g., Shahriyar Taufik" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Skills (Optional, comma-separated)</label>
+                                <input type="text" id="skills" placeholder="e.g., Python, Machine Learning, Public Speaking">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>10th Grade Percentage/CGPA <span class="required">*</span></label>
+                                <input type="text" id="grade-10" placeholder="e.g., 95% or 10.0" required>
+                            </div>
+                            <div class="form-group">
+                                <label>12th Grade Percentage/CGPA <span class="required">*</span></label>
+                                <input type="text" id="grade-12" placeholder="e.g., 92% or 9.5" required>
+                            </div>
+                        </div>
+                        <button type="button" id="suggest-field-btn" class="gemini-btn">✨ Get AI Field Suggestion</button>
+                        <div id="field-suggestion" class="important-note" style="display: none; margin-top: 15px;"></div>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step2">
+                    <h2 class="step-title">🎓 Field & Semester Selection</h2>
+                    <div id="ai-field-recommendation" class="important-note" style="display:none;"></div>
+                    <div class="form-section">
+                        <div class="section-title">Select Your Field of Study</div>
+                        <div class="form-group">
+                            <label for="field-of-study">Field <span class="required">*</span></label>
+                            <select id="field-of-study" required>
+                                <option value="Science">Science</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Arts">Arts</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <div class="section-title">Confirm Your Starting Semester</div>
+                        <div class="form-group">
+                            <label for="current-semester">Starting Semester <span class="required">*</span></label>
+                            <select id="current-semester" required>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                                <option value="7">Semester 7</option>
+                                <option value="8">Semester 8</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step3">
+                    <h2 class="step-title">📚 Course Planning</h2>
+                    <div id="ai-subject-recommendation" class="important-note" style="display:none;"></div>
+                    <div id="subject-selection-rules"></div>
+                    <div class="form-section" id="semester-subject-container">
+                        <div class="section-title">Select Core Subjects (Exactly 6)</div>
+                        </div>
+                    <div class="form-section" id="labs-section">
+                        <div class="section-title">Select Compulsory Labs (Exactly 2)</div>
+                        <div id="labs-container">
+                            </div>
+                    </div>
+                    <div class="form-section" id="additional-subjects-section">
+                        <div class="section-title">Select Additional Credit Subjects (Min: 1, Max: 3)</div>
+                        <div id="additional-subjects-container">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step4">
+                    <h2 class="step-title">🏫 University Selection</h2>
+                    <div class="form-section" id="university-recommendation-container">
+                        <div class="section-title">✨ AI Recommended Universities</div>
+                        <div id="university-loader"><p>AI is analyzing your profile to suggest universities...</p></div>
+                        <div id="university-recommendations" class="cards-container"></div>
+                    </div>
+                </div>
+
+                <div class="form-step" id="step5">
+                    <h2 class="step-title">👨‍🏫 Faculty Selection</h2>
+                    <div class="form-section" id="professor-selection-container">
+                        <div class="section-title">Select Your Professors</div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="ai-choose-profs" checked>
+                                Let AI choose the best professors for me
+                            </label>
+                        </div>
+                        <div id="manual-professor-selection">
+                            </div>
+                    </div>
+                </div>
+
+
+                <div class="form-step" id="step6">
+                    <h2 class="step-title">📅 Scheduling & Break Preferences</h2>
+                    <div class="form-section" id="expenditure-container">
+                        <div class="section-title">Estimated Costs at <span id="selected-uni-name">your chosen university</span></div>
+                        <div id="expenditure-loader"><p>AI is calculating estimated costs...</p></div>
+                        <div id="expenditure-details"></div>
+                    </div>
+                    <div class="form-section">
+                        <div class="section-title">Daily Break Time Preferences</div>
+                        <p class="mb-4">Configure your breaks for each day of the week.</p>
+                        <div id="daily-break-container">
+                            </div>
+                    </div>
+                </div>
+                
+                <div class="form-step" id="step7">
+                    <h2 class="step-title">📅 Your AI-Generated Timetable</h2>
+                    <div id="generation-loader" class="text-center py-8">
+                        <p class="mt-4 text-lg font-medium">Our AI is crafting the perfect schedule for you...</p>
+                        <p class="text-sm">This may take a few moments.</p>
+                    </div>
+                    <div id="timetable-output" style="display:none;">
+                        <div class="form-section">
+                            <div class="section-title">Schedule Details</div>
+                            <p><strong>Student:</strong> <span id="output-student-name"></span></p>
+                            <p><strong>University:</strong> <span id="output-university"></span></p>
+                        </div>
+                        <div class="timetable-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Monday</th>
+                                        <th>Tuesday</th>
+                                        <th>Wednesday</th>
+                                        <th>Thursday</th>
+                                        <th>Friday</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="timetable-body"></tbody>
+                            </table>
+                        </div>
+                        <div id="ai-study-tips" class="important-note mt-8">
+                            <h4 class="font-bold mb-2">✨ AI Study Tips</h4>
+                            <div id="study-tips-content">Generating tips...</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">← Previous</button>
+                    <div></div>
+                    <button type="button" class="btn btn-primary" id="nextBtn">Next →</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Government of India | Ministry of Education | All Rights Reserved</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
